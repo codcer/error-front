@@ -1,7 +1,7 @@
 {
   "name": "error-front",
   "version": "1.0.0",
-  "description": "前端错误上报",
+  "description": "前端埋点上报",
   "src": "dist/index.js",
   "main": "lib/error-moniter.min.js",
   "dependencies": {},
@@ -24,14 +24,18 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "ts": "tsc",
+    "build": "npm run clean && rollup --config build/rollup.prod.conf.js",
+    "start": "npm run dev",
+    "clean": "rimraf lib/**",
+    "dev": "rollup --config build/rollup.dev.conf.js -w && livereload 'lib/'",
+    "test": "jest --config ./jest.conf.js --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codcer/error-front.git"
   },
-  "author": "",
+  "author": "liu.fan",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/codcer/error-front/issues"

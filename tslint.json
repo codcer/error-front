@@ -93,5 +93,12 @@
             "allow-trailing-underscore",
             "ban-keywords"]
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "bin/**",
+            "lib/**",
+            "build/**"
+        ]
+    }
 }

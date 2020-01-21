@@ -1,0 +1,24 @@
+{
+  "name": "error-front",
+  "version": "1.0.0",
+  "description": "前端错误上报",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codcer/error-front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codcer/error-front/issues"
+  },
+  "homepage": "https://github.com/codcer/error-front#readme"
+}

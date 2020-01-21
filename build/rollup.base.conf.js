@@ -16,7 +16,7 @@ export default {
     sourcemap: true,
   },
   watch: {
-    include: "src/**",
+    include: "dist/**",
   },
   plugins: [
     resolve(),
@@ -29,7 +29,7 @@ export default {
     babel({
       babelrc: false,
       presets: [["env", {modules: false, loose: true}]],
-      include: ["src/**", "test/**"],
+      include: ["dist/**", "test/**"],
       plugins: ["external-helpers"],
       runtimeHelpers: true,
     }),

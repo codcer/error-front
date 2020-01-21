@@ -2,7 +2,8 @@
   "name": "error-front",
   "version": "1.0.0",
   "description": "前端错误上报",
-  "main": "index.js",
+  "src": "dist/index.js",
+  "main": "lib/error-moniter.min.js",
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",

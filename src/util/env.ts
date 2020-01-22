@@ -1,58 +1,58 @@
-const _window =
+interface IWin {
+  [name: string]: any;
+}
+const _window: IWin =
   typeof window !== 'undefined'
-    ? window
-    : typeof global !== 'undefined'
-    ? global
-    : typeof this !== 'undefined'
-    ? this
-    : {};
+    ? window : {};
 const addEventListener = _window.addEventListener || _window.attachEvent;
+const USERAGENT = navigator.userAgent.toLowerCase(); // 取得浏览器的userAgent字符串
 
-let warnList = [];
-const FailErrorList = [];
+// 列表名单
+const WARN_LIST: any = [];
+const FAIL_ERROR_LIST: any = [];
 
 // 录制 事件 + 时间备份
 _window.recordEvent = [];
 _window.eventBackUp = [];
 
-// 默认错误信息上报
-const defaultInfo = {
+// 默认上报的信息
+const DEFAULT_INFO = {
   browser: _getBrowser(), // 浏览器
+  memory: _window.navigator.deviceMemory, // 获取用户的最大内存 G
   os: _getDevices(), // 设备类型
   osVersion: _getSystemVersion(), // 操作系统版本
-  memory: _window.navigator.deviceMemory, // 获取用户的最大内存 G
 };
 
 /**
  * 重置警告列表
  */
-function resetWarnList() {
-  warnList = [];
+function resetWarnList(): void {
+  const {length} = WARN_LIST;
+  WARN_LIST.splice(0, length);
 }
 
 /**
  * 加入失败/错误列表
  */
-function pushFailErrorList(info) {
+function pushFailErrorList(info: any): void {
   if (Array.isArray(info)) {
-    FailErrorList.push(...info);
+    FAIL_ERROR_LIST.push(...info);
   } else {
-    pushFailErrorList.push(info);
+    FAIL_ERROR_LIST.push(info);
   }
 }
 
 /**
  * 获取浏览器类型
  */
-function _getBrowser() {
-  const userAgent = navigator.userAgent.toLowerCase(); // 取得浏览器的userAgent字符串
-  const isOpera = userAgent.indexOf('opera') > -1;
-  const isFirefox = userAgent.indexOf('firefox') > -1;
-  const isChrome = userAgent.indexOf('chrome') > -1;
-  const isSafari = userAgent.indexOf('safari') > -1;
+function _getBrowser(): string {
+  const isOpera = USERAGENT.indexOf('opera') > -1;
+  const isFirefox = USERAGENT.indexOf('firefox') > -1;
+  const isChrome = USERAGENT.indexOf('chrome') > -1;
+  const isSafari = USERAGENT.indexOf('safari') > -1;
   const isIE =
-    userAgent.indexOf('compatible') > -1 &&
-    userAgent.indexOf('MSIE') > -1 &&
+    USERAGENT.indexOf('compatible') > -1 &&
+    USERAGENT.indexOf('MSIE') > -1 &&
     !isOpera;
 
   switch (true) {
@@ -74,46 +74,48 @@ function _getBrowser() {
 /**
  * 获取设备是安卓、IOS 还是PC端
  */
-function _getDevices() {
-  const u = navigator.userAgent;
+function _getDevices(): string {
+  const u = USERAGENT;
   const app = navigator.appVersion;
+  let platSTR = '';
 
   if (
-    /AppleWebKit.*Mobile/i.test(navigator.userAgent) ||
-    /MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(
-      navigator.userAgent,
+    /AppleWebKit.*Mobile/i.test(u) ||
+    /MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/i.test(
+      u,
     )
   ) {
     if (window.location.href.indexOf('?mobile') < 0) {
       try {
-        if (/iPhone|mac|iPod|iPad/i.test(navigator.userAgent)) {
-          return 'iPhone';
+        if (/iPhone|mac|iPod|iPad/i.test(u)) {
+          platSTR = 'iPhone';
         } else {
-          return 'Android';
+          platSTR =  'Android';
         }
       } catch (e) {
-        console.log('您的宿主不支持navigator.userAgent api');
+        platSTR = '您的宿主不支持navigator.userAgent api';
       }
     }
-  } else if (u.indexOf('iPad') > -1) {
-    return 'iPhone';
+  } else if (u.indexOf('ipad') > -1) {
+    platSTR = 'iPhone';
   } else {
-    return navigator.platform;
+    platSTR = navigator.platform;
   }
+  return platSTR;
 }
 
 /**
  * 获取操作系统版本
  */
-function _getSystemVersion() {
-  const ua = window.navigator.userAgent;
-  if (ua.indexOf('CPU iPhone OS ') >= 0) {
+function _getSystemVersion(): string {
+  const ua = USERAGENT;
+  if (ua.indexOf('cpu iphone os ') >= 0) {
     return ua.substring(
-      ua.indexOf('CPU iPhone OS ') + 14,
-      ua.indexOf(' like Mac OS X'),
+      ua.indexOf('cpu iphone os ') + 14,
+      ua.indexOf(' like mac os x'),
     );
-  } else if (ua.indexOf('Android ') >= 0) {
-    return ua.substr(ua.indexOf('Android ') + 8, 3);
+  } else if (ua.indexOf('android ') >= 0) {
+    return ua.substr(ua.indexOf('android ') + 8, 3);
   } else {
     return 'other';
   }
@@ -122,9 +124,9 @@ function _getSystemVersion() {
 export {
   _window,
   addEventListener,
-  warnList,
+  WARN_LIST,
   resetWarnList,
-  FailErrorList,
-  defaultInfo,
+  FAIL_ERROR_LIST,
   pushFailErrorList,
+  DEFAULT_INFO,
 };

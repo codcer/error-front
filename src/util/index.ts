@@ -1,7 +1,7 @@
-// import { resetWarnList, pushFailErrorList } from '../redux';
+import { pushFailErrorList, resetWarnList } from './env'; // redux
 
 /**
- * 自定义类型
+ * 自定义ts类型
  */
 type func = () => any;
 interface IObj {
@@ -54,6 +54,7 @@ function _sendToServer(info: object): void {
   try {
     const isArr = info instanceof Array;
     fetch(config.submitUrl, {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

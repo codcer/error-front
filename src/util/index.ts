@@ -1,4 +1,5 @@
-import { pushFailErrorList, resetWarnList } from './env'; // redux
+import { config } from '../conf/index'; // redux util
+import { pushFailErrorList, resetWarnList } from './env'; // redux util
 
 /**
  * 自定义ts类型
@@ -54,14 +55,13 @@ function _sendToServer(info: object): void {
   try {
     const isArr = info instanceof Array;
     fetch(config.submitUrl, {
-
-      method: 'POST',
+      body: JSON.stringify(info),
       headers: {
         'Content-Type': 'application/json',
         "appId": config.appId,
         "appScrect": config.appScrect,
       },
-      body: JSON.stringify(info),
+      method: 'POST',
     })
       .then((res) => {
         if (isArr) {
@@ -74,7 +74,7 @@ function _sendToServer(info: object): void {
         }
       });
   } catch (e) {
-    console.log('您的宿主不支持fetch api');
+    console.log('您的宿主不支持fetch api', e);
   }
 }
 

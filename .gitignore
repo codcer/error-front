@@ -1,8 +1,11 @@
 ### ignore dir
-/node_modules
+/**/node_modules
+.history
+/**/dist
+/**/lib
 
 
 
 
 ### ignore file
-package-lock.json
+/**/package-lock.json
